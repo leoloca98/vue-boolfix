@@ -1,87 +1,26 @@
 <template>
-  <div id="app" class="text-center">
-    <Search @search="getInput" />
-    <Container />
-    <section id="Content">
-      <!-- Results -->
-      <div class="container">
-        <div class="row">
-          <div id="film" class="col-6 border border-black h-100">
-            <Movies />
-            <h2 class="mb-3">FILM</h2>
-            <li v-for="(movie, index) in movies" :key="movie.id + '-' + index">
-              <div class="card my-5 text-start border-5 px-5">
-                <div class="item">Titolo: {{ movie.title || movie.name }}</div>
-                <div class="item">
-                  TItolo Originale: {{ movie.original_title }}
-                </div>
-                <div class="item">
-                  <span class="item">Lingua: </span>
-                  <img
-                    :src="
-                      require('@/assets/img/' +
-                        movie.original_language +
-                        '.png')
-                    "
-                  />
-                </div>
-                <div class="item">Voto: {{ movie.vote_average }}</div>
-                <div class="item">
-                  <img
-                    :src="
-                      'https://image.tmdb.org/t/p/w342/' + movie.poster_path
-                    "
-                    :alt="movie.title"
-                  />
-                </div>
-              </div>
-            </li>
-          </div>
-          <div id="serie-tv" class="col-6 border border-black h-100">
-            <Series />
-            <h2 class="mb-3">SERIE TV</h2>
-            <li v-for="(tv, index) in serieTv" :key="tv.id + '-' + index">
-              <div class="card my-5 text-start border-5 px-5">
-                <div class="item">Titolo: {{ tv.name }}</div>
-                <div class="item">TItolo Originale: {{ tv.original_name }}</div>
-                <div class="item">
-                  <span class="item">Lingua: </span>
-                  <img
-                    :src="
-                      require('@/assets/img/' + tv.original_language + '.png')
-                    "
-                  />
-                </div>
-                <div class="item">Voto: {{ tv.vote_average }}</div>
-                <div class="item">
-                  <img
-                    :src="'https://image.tmdb.org/t/p/w342/' + tv.poster_path"
-                    :alt="tv.name"
-                  />
-                </div>
-              </div>
-            </li>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div id="app">
+    <header class="bg-black d-flex justify-content-between align-items-center">
+      <h1 class="ms-5 text-danger title-ff">BOOLFLIX</h1>
+      <Search class="me-5" @search="getInput" />
+    </header>
+    <main class="bg-secondary pb-6">
+      <Results title="Film" id="film" :items="movies" />
+      <Results title="Serie TV" id="serie-tv" :items="serieTv" />
+    </main>
   </div>
 </template>
 
 <script>
-import Search from "@/components/Search.vue";
-import Container from "@/components/Container.vue";
-import Movies from "@/components/Movies.vue";
-import Series from "@/components/Series.vue";
 import axios from "axios";
+import Search from "@/components/Search.vue";
+import Results from "@/components/Results.vue";
 
 export default {
   name: "App",
   components: {
     Search,
-    Container,
-    Movies,
-    Series,
+    Results,
   },
   data() {
     return {
@@ -108,14 +47,23 @@ export default {
 </script>
 
 <style lang="scss">
-#Content {
-  height: 100vh;
+#app {
   width: 100%;
+  margin: 0;
+  padding: 0;
 
-  .item {
-    margin: 10px 0;
-    font-size: 15px;
+  header {
+    height: 100px;
+    width: 100%;
   }
+
+  main {
+    width: 100%;
+  }
+}
+
+.bg-black {
+  background-color: #000;
 }
 
 @import "../src/assets/scss/style.scss";
